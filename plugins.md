@@ -153,3 +153,36 @@ copyCode: {
 </script>
 ```
 
+示例
+
+```html
+	<script>
+	  const hash=location.hash;
+	  let id = "mainPage";
+	  if(!hash && hash.length >2 && hash.substr(0, 2) === "#/"){
+	    id = hash.substr(2);
+	  }
+	  const gitalk = new Gitalk({
+		clientID: 'fbbb56f2ee144530c49b',
+		clientSecret: 'c2004eeed2a120b1d70e49d3da1c0a861ae1a09d',
+		repo: 'docsify-zh-cn-simple-guide',
+		owner: 'wdpm',
+		admin: 'wdpm',
+		id: id,
+		// facebook-like distraction free mode
+		distractionFreeMode: true
+	  })
+	</script>
+```
+
+
+
+## 分页导航
+
+ docsify的分页导航插件，由[@imyelo](https://github.com/imyelo)提供。 
+
+```html
+<script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
+<script src="//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js"></script>
+```
+

@@ -68,16 +68,23 @@
   <script src="//unpkg.com/docsify/lib/plugins/gitalk.min.js"></script>
   <script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script>
 	<script>
+	  const hash=location.hash;
+	  let id = "mainPage";
+	  if(!hash && hash.length >2 && hash.substr(0, 2) === "#/"){
+	    id = hash.substr(2);
+	  }
 	  const gitalk = new Gitalk({
 		clientID: 'fbbb56f2ee144530c49b',
 		clientSecret: 'c2004eeed2a120b1d70e49d3da1c0a861ae1a09d',
 		repo: 'docsify-zh-cn-simple-guide',
 		owner: 'wdpm',
 		admin: 'wdpm',
-		id: 'test',
+		id: id,
 		// facebook-like distraction free mode
-		distractionFreeMode: false
+		distractionFreeMode: true
 	  })
 	</script>
+	
+    <script src="//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js"></script>
 </body>
 </html>
