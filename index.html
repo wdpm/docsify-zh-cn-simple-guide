@@ -14,8 +14,8 @@
   <script src="//unpkg.com/docsify-edit-on-github/index.js"></script>
   <script>
     window.$docsify = {
-      name: '',
-      repo: '',
+      name: 'docsify 中文简约指南',//文档标题，会显示在侧边栏顶部。
+      repo: 'https://github.com/wdpm/docsify-zh-cn-simple-guide',//页面右上角渲染一个 GitHub Corner 挂件
 	  loadSidebar: true,
 	  loadNavbar: true,
 	  coverpage: true,
@@ -74,7 +74,7 @@
 		repo: 'docsify-zh-cn-simple-guide',
 		owner: 'wdpm',
 		admin: 'wdpm',
-		id: location.hash? location.hash.substr(2) : "mainPage",
+		id: location.href,
 		// facebook-like distraction free mode
 		distractionFreeMode: true
 	  })
