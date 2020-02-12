@@ -7,9 +7,29 @@
   <meta name="description" content="Description">
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css">
+  <style>
+	.loading {
+		width: 50px;
+		height: 50px;
+		display: inline-block;
+		border: 5px solid #ddd;
+		border-left-color: #FFB5BF;
+		border-radius: 50%; 
+		animation: loading-animation 1.2s linear infinite;
+	}
+
+	@keyframes loading-animation {
+		0% {
+		  transform: rotate(0deg);
+		}
+		100% {
+		  transform: rotate(360deg);
+		}
+	}
+  </style>
 </head>
 <body>
-  <div id="app">Loading...</div>
+  <div id="app" class="loading"></div>
   <script src="//unpkg.com/docsify-edit-on-github/index.js"></script>
   <script>
     window.$docsify = {
