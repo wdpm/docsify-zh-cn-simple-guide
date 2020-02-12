@@ -68,7 +68,7 @@
 
  示例。图片来自Pixiv。
 
-![](assets/reimu.jpg)
+![](../assets/reimu.jpg)
 
 忽略某张图片 
 

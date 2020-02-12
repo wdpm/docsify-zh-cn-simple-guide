@@ -42,7 +42,7 @@ window.$docsify = {
 }
 ```
 
-![](assets/hook.png)
+![](../assets/hook.png)
 
 2 和 3 为切换不同路由页面时的日志。
 
