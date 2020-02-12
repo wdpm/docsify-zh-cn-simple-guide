@@ -131,60 +131,6 @@ copyCode: {
 
 
 
-## Gitalk 评论系统
-
-[Gitalk](https://github.com/gitalk/gitalk)，一个现代化的，基于Preact和Github Issue的评论系统。
-
-```html
-<link rel="stylesheet" href="//unpkg.com/gitalk/dist/gitalk.css">
-
-<script src="//unpkg.com/docsify/lib/plugins/gitalk.min.js"></script>
-<script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script>
-<script>
-  const gitalk = new Gitalk({
-    clientID: 'Github Application Client ID',
-    clientSecret: 'Github Application Client Secret',
-    repo: 'Github repo',
-    owner: 'Github repo owner',
-    admin: ['Github repo collaborators, only these guys can initialize github issues'],
-    // facebook-like distraction free mode
-    distractionFreeMode: false
-  })
-</script>
-```
-
-示例
-
-```html
-	<script>
-	  const hash=location.hash;
-	  let id = "mainPage";
-	  if(!hash && hash.length >2 && hash.substr(0, 2) === "#/"){
-	    id = hash.substr(2);
-	  }
-	  const gitalk = new Gitalk({
-		clientID: 'fbbb56f2ee144530c49b',
-		clientSecret: 'c2004eeed2a120b1d70e49d3da1c0a861ae1a09d',
-		repo: 'docsify-zh-cn-simple-guide',
-		owner: 'wdpm',
-		admin: 'wdpm',
-		id: id,
-		// facebook-like distraction free mode
-		distractionFreeMode: true
-	  })
-	</script>
-```
-
-说明：注意id这个字段。默认赋值为主页 mainPage ；大部分情况应该是特定页面，此时对 location.hash 作处理提取路由作为唯一标志值，例如id可能为 custom-loading 这种形式的值。
-
-接着，你需要在Github 手动创建相应的issue，并赋予正确的 label
-
-下图创建了一个issue，Label标注为 Gitalk 和 test。Gitalk 表示为 Gitalk 评论，test 表示某一个页面的 id。
-
-![](assets/create-test-issue.PNG)
-
-
-
 ## 分页导航
 
  docsify的分页导航插件，由[@imyelo](https://github.com/imyelo)提供。 

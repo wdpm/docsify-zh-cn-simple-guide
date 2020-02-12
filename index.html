@@ -7,7 +7,6 @@
   <meta name="description" content="Description">
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css">
-  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
 </head>
 <body>
   <div id="app">Loading...</div>
@@ -16,10 +15,13 @@
     window.$docsify = {
       name: 'docsify 中文简约指南',//文档标题，会显示在侧边栏顶部。
       repo: 'https://github.com/wdpm/docsify-zh-cn-simple-guide',//页面右上角渲染一个 GitHub Corner 挂件
+	  auto2top: true,
+	  nameLink: '/',
 	  loadSidebar: true,
 	  loadNavbar: true,
 	  coverpage: true,
-	  subMaxLevel: 4,
+	  subMaxLevel: 2,
+	  maxLevel: 4,//单页面最大标题层级
 	  executeScript: true,
 
     // 完整配置参数
@@ -41,45 +43,75 @@
       // 搜索标题的最大程级, 1 - 6
       depth: 2
     },
+	
+	  notFoundPage: {
+        '/': '_404.md'
+      },
 	  // docsify-copy-code (custom)
 	  copyCode: {
 		buttonText : '复制到粘贴板',
 		errorText  : '错误',
 		successText: '复制成功'
 	  },
+	  
+	  formatUpdated: '{YYYY}-{MM}-{DD} {HH}:{mm}',
 	
 	plugins: [
-        EditOnGithubPlugin.create(
-            'https://github.com/wdpm/docsify-zh-cn-simple-guide/blob/master/',
-            null,
-            function(file) {
-					return 'edit on git'
-				}
-            )
+			function (hook, vm) {
+				hook.init(function() {
+				  // 初始化时调用，只调用一次，没有参数。
+				  //console.log("init");
+				})
+
+				hook.mounted(function() {
+				  // 初始化完成后调用，只调用一次，没有参数。
+				  //console.log("mounted");
+				})
+
+				hook.beforeEach(function(html) {
+				  // 每次开始解析 Markdown 内容时调用
+				  console.log("Now route is: %o",vm.route.path);
+				  
+				  var url = 'https://github.com/wdpm/docsify-zh-cn-simple-guide/blob/master/' + vm.route.file
+				  var editHtml = '[📝 EDIT DOCUMENT](' + url + ')\n'
+
+				  return 'Last modified {docsify-updated} '
+				    + editHtml
+					+ html
+
+				})
+
+				hook.afterEach(function(html, next) {
+				  // 解析成 html 后调用。beforeEach 和 afterEach 支持处理异步逻辑
+				  // ...
+				  // 异步处理完成后调用 next(html) 返回结果
+				  //console.log("afterEach");
+				  next(html)
+				})
+
+				hook.doneEach(function() {
+				  // 每次路由切换时数据全部加载完成后调用，没有参数。
+				  //console.log("doneEach");
+				})
+
+				hook.ready(function() {
+				  // 初始化并第一次加载完成数据后调用，没有参数。
+				  //console.log("ready");
+				})
+         }
     ]
     }
+	
+	  if (typeof navigator.serviceWorker !== 'undefined') {
+		navigator.serviceWorker.register('sw.js')
+	  }
   </script>
   <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
   <script src="//unpkg.com/docsify/lib/plugins/search.js"></script>
   <script src="//unpkg.com/docsify/lib/plugins/emoji.js"></script>
+  <script src="//unpkg.com/docsify/lib/plugins/external-script.js"></script>
   <script src="//unpkg.com/docsify/lib/plugins/zoom-image.js"></script>
   <script src="//unpkg.com/docsify-copy-code"></script>
-  
-  <script src="//unpkg.com/docsify/lib/plugins/gitalk.min.js"></script>
-  <script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script>
-	<script>
-	  const gitalk = new Gitalk({
-		clientID: 'fbbb56f2ee144530c49b',
-		clientSecret: 'c2004eeed2a120b1d70e49d3da1c0a861ae1a09d',
-		repo: 'docsify-zh-cn-simple-guide',
-		owner: 'wdpm',
-		admin: 'wdpm',
-		id: location.href,
-		// facebook-like distraction free mode
-		distractionFreeMode: true
-	  })
-	</script>
-	
-    <script src="//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js"></script>
+  <script src="//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js"></script>
 </body>
 </html>
