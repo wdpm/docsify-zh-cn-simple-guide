@@ -6,6 +6,6 @@
 -  多个主题 
 - 不建立静态HTML文件 
 
-[GitHub]() 
-[Get Started](#quick-start) 
+[GitHub](https://github.com/wdpm/docsify-zh-cn-simple-guide) 
+[Get Started](/get-started/quickstart) 
 
