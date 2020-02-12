@@ -10,5 +10,5 @@
 
 ## CSS添加一个旋转的圆圈
 
-[loading](loading.html  ':include :type=iframe width=100% height=70px')
+[loading](../loading.html  ':include :type=iframe width=100% height=70px')
 
