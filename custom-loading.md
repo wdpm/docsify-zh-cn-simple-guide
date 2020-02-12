@@ -6,5 +6,9 @@
 <div id="app">Loading...</div>
 ```
 
-> TODO: 使用CSS添加一个旋转的圆圈效果。
+
+
+## CSS添加一个旋转的圆圈
+
+[loading](loading.html  ':include :type=iframe width=100% height=70px')
 
