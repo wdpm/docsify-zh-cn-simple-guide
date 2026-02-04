@@ -60,7 +60,13 @@ demo/zh-cn/guide.md   => http://localhost:3000/#/zh-cn/guide
 
 开启侧边栏之后，你会发现访问 localhost:3000 时没有见到侧边栏的目录。
 
+可以给选中项添加一个淡色的背景颜色。
 
+```css
+.sidebar ul li.active > a {
+	background-color: rgba(0, 0, 0, 0.05);
+}
+```
 
 ## 重新显示目录
 

@@ -26,7 +26,7 @@ const getFixedUrl = (req) => {
   url.protocol = self.location.protocol
 
   // 2. add query for caching-busting.
-  // Github Pages served with Cache-Control: max-age=600
+  // GitHub Pages served with Cache-Control: max-age=600
   // max-age on mutable content is error-prone, with SW life of bugs can even extend.
   // Until cache mode of Fetch API landed, we have to workaround cache-busting with query string.
   // Cache-Control-Bug: https://bugs.chromium.org/p/chromium/issues/detail?id=453190
@@ -38,7 +38,7 @@ const getFixedUrl = (req) => {
 
 /**
  *  @Lifecycle Activate
- *  New one activated when old isnt being used.
+ *  New one activated when old isn't being used.
  *
  *  waitUntil(): activating ====> activated
  */
@@ -64,9 +64,22 @@ self.addEventListener('fetch', event => {
     const fetchedCopy = fetched.then(resp => resp.clone())
 
     // Call respondWith() with whatever we get first.
-    // If the fetch fails (e.g disconnected), wait for the cache.
+    // If the fetch fails (e.g. disconnected), wait for the cache.
     // If there’s nothing in cache, wait for the fetch.
     // If neither yields a response, return offline pages.
+
+    // race阶段
+    // 1. 如果网络请求(fetched)先完成 → 使用网络响应
+    // 2. 如果缓存(cached)先完成 → 使用缓存响应
+    // 3. 如果网络请求失败 → fetched.catch返回cached，使用缓存响应
+
+    // then阶段
+    // 1. 如果 race 返回了非空 resp（无论是缓存还是网络）→ 使用它。理念是允许数据稍微过时，有内容就合格。
+    // 2. 但是如果 resp 是 undefined（比如缓存没命中）→ 等待网络请求(fetched)
+
+    // 首次访问：网络获取 → 稍慢，但数据新鲜
+    // 后续访问：缓存优先 → 极快，可能显示旧数据，但后台会更新
+    // 离线访问：缓存兜底 → 可用，即使没有网络
     event.respondWith(
       Promise.race([fetched.catch(_ => cached), cached])
         .then(resp => resp || fetched)

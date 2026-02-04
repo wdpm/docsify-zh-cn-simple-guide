@@ -3,30 +3,57 @@
 可以直接在 Markdown 文件里写 Vue 代码，它将被执行。
 
 
+## 美化版本
 
-## 基础用法
-
-`index.html` 引入 Vue。
-
-```html
-<script src="//unpkg.com/vue"></script>
-```
-
- 默认会执行 `new Vue({ el: '#main' })` 创建示例。 
-
- 或者，手动初始化 Vue，自定义一些配置。 
-
-```markdown
-# Vue 的基本用法
-
-<div>hello {{ msg }}</div>
+<div id="styled-demo"></div>
 
 <script>
-  new Vue({
-    el: '#main',
-    data: { msg: 'Vue' }
-  })
+Vue.createApp({
+  data() {
+    return {
+      message: 'Hello Vue 3 in Docsify! 🎉',
+      count: 0
+    };
+  },
+  template: `
+    <div style="
+      padding: 20px;
+      margin: 20px 0;
+      border: 2px solid #42b983;
+      border-radius: 10px;
+      background: #f8fff8;
+    ">
+      <h3 style="color: #2c3e50; margin-top: 0;">Vue 3 Component</h3>
+      <p style="font-size: 18px; color: #42b983;">{{ message }}</p>
+      <p>Count: <strong>{{ count }}</strong></p>
+      <div style="margin-top: 15px;">
+        <button @click="count++"
+          style="
+            padding: 8px 16px;
+            margin-right: 10px;
+            background: #42b983;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+          "
+        >
+          Increment
+        </button>
+        <button @click="count = 0"
+          style="
+            padding: 8px 16px;
+            background: #f56c6c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+          "
+        >
+          Reset
+        </button>
+      </div>
+    </div>
+  `
+}).mount('#styled-demo');
 </script>
-```
-
-!>  一个 Markdown 文件里只有第一个 `script` 标签内的内容会被执行。 

@@ -19,6 +19,7 @@ docsify 4.6 开始支持嵌入任何类型的文件到文档。可以将文件�
 如果嵌入文件是一个 `iframe`、`audio` 或 `video`，可以给这些标签设置属性。 
 
 ```markdown
-[cinwell website](https://cinwell.com ':include :type=iframe width=100% height=400px')
+[bilibili website](https://bilibili.com ':include :type=iframe width=100% height=400px')
 ```
 
+[bilibili website](https://bilibili.com ':include :type=iframe width=100% height=400px')

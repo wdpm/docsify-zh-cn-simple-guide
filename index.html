@@ -2,151 +2,283 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<title>Document</title>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-	<meta name="description" content="Description">
-	<meta name="viewport"
-		content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css">
-	<style>
-		.loading {
-			width: 50px;
-			height: 50px;
-			display: inline-block;
-			margin: 0 auto;
-			border: 5px solid #ddd;
-			border-left-color: #FFB5BF;
-			border-radius: 50%;
-			animation: loading-animation 1.2s linear infinite;
-		}
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="description" content="Description">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <!--    使用Vue风格主题-->
+    <!--    CSS 的压缩文件位于 /lib/themes/ 目录下-->
+    <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css">
+    <link rel="stylesheet" href="https://unpkg.com/docsify-toc@1.0.0/dist/toc.css">
+    <style>
+        /* 加载动画样式 */
+        #loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #eeeeee;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease;
+        }
 
-		@keyframes loading-animation {
-			0% {
-				transform: rotate(0deg);
-			}
+        .loading-spinner {
+            margin: 5px auto;
+            width: 50px;
+            height: 50px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #42b983;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
 
-			100% {
-				transform: rotate(360deg);
-			}
-		}
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
 
-		.sidebar ul li.active>a {
-			background-color: rgba(0, 0, 0, 0.05);
-		}
-	</style>
+        .loading-content {
+            text-align: center;
+        }
+
+        .loading-content p {
+            margin-top: 10px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* 加载完成后的隐藏效果 */
+        .loading-hide {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .sidebar ul li.active > a {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+    </style>
 </head>
 
 <body>
-	<div id="app" class="loading"></div>
-	<script src="//unpkg.com/docsify-edit-on-github/index.js"></script>
-	<script>
-		window.$docsify = {
-			name: 'docsify 中文简约指南',//文档标题，会显示在侧边栏顶部。
-			repo: 'https://github.com/wdpm/docsify-zh-cn-simple-guide',//页面右上角渲染一个 GitHub Corner 挂件
-			auto2top: true,
-			nameLink: '/docsify-zh-cn-simple-guide',
-			loadSidebar: true,
-			loadNavbar: true,
-			coverpage: true,
-			subMaxLevel: 2,
-			maxLevel: 4,//单页面最大标题层级
-			executeScript: true,
+<!-- 加载动画 -->
+<div id="loading">
+    <div class="loading-content">
+        <div class="loading-spinner"></div>
+        <p>文档加载中......</p>
+    </div>
+</div>
+<div id="app"></div>
+<script src="//cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js"></script>
+<script src="//unpkg.com/docsify-edit-on-github/index.js"></script>
+<script>
+    // 内置的 Markdown 解析器是 marked，可以修改它的配置。同时可以直接配置 renderer。
+    // https://github.com/markedjs/marked#options-1
 
-			alias: {
-				'/.*/_sidebar.md': '/_sidebar.md',
-				'/.*/_navbar.md': '/_navbar.md'
-			},
+    function sleepMilliseconds(ms) {
+        const start = Date.now();
+        while (Date.now() - start < ms) {
+            // 空循环阻塞
+        }
+    }
 
-			// 完整配置参数
-			search: {
-				maxAge: 86400000, // 过期时间，单位毫秒，默认一天
-				paths: 'auto', // or 'auto'
-				placeholder: 'Type to search',
+    window.$docsify = {
+        // el: docsify 初始化的挂载元素，可以是一个 CSS 选择器，默认为 #app 。
+        // el: '#app',
+        name: 'docsify 中文简约指南',//文档标题，会显示在侧边栏顶部。
+        repo: 'https://github.com/wdpm/docsify-zh-cn-simple-guide',//页面右上角渲染一个 GitHub Corner 挂件
+        // 默认是hash导航模式
+        // routerMode: 'history',
+        // 切换页面后是否自动跳转到页面顶部。
+        auto2top: true,
+        // nameLink: '#/docsify-zh-cn-simple-guide',
+        nameLink: '#/',
+        // 加载自定义侧边栏。设置为 `true` 后会加载 `_sidebar.md` 文件。
+        loadSidebar: true,
+        // 定制导航栏，需要创建 _navbar.md
+        // _navbar.md 加载逻辑和 sidebar 一致，从每层目录下获取。例当前路由为 /zh-cn/custom-navbar 那么从 /zh-cn/_navbar.md 获取导航栏。
+        loadNavbar: true,
 
-				// 支持本地化
-				placeholder: {
-					'/': '搜索'
-				},
+        // 启用封面页，需要创建 _coverpage.md
+        coverpage: true,
+        // 自定义文件名
+        // coverpage: 'cover.md',
+        // 默认情况下封面和首页是同时出现的，可以通过onlyCover参数将封面独立出来作为首页。
+        onlyCover: true,
+        // 多个封面设置的方式
+        // coverpage: {
+        // 	// '/': '_coverpage.md',
+        // 	// '/foo/': 'cover-foo.md'
+        // },
 
-				// 支持本地化
-				noData: {
-					'/': '找不到结果'
-				},
+        // 默认情况下会抓取文档中所有标题渲染成目录，可配置最大支持渲染的标题层级。 默认值为6。
+        maxLevel: 4,
+        // 自定义侧边栏后默认不会再生成目录，可以通过设置生成目录的最大层级开启这个功能。
+        subMaxLevel: 2,
+        // 执行文档里的 script 标签里的脚本。 如果 Vue 存在，则自动开启。
+        // !如果执行的是一个外链脚本，比如 jsfiddle 的内嵌 demo，请确保引入 external-script 插件。
+        executeScript: true,
 
-				// 搜索标题的最大程级, 1 - 6
-				depth: 2
-			},
+        // 小屏设备下合并导航栏到侧边栏。我认为不实用，关闭
+        // mergeNavbar: true,
 
-			notFoundPage: {
-				'/': '_404.md'
-			},
+        // 入口文件改为 /home.md
+        // homepage: 'home.md',
 
-			// docsify-copy-code (custom)
-			copyCode: {
-				buttonText: '复制到粘贴板',
-				errorText: '错误',
-				successText: '复制成功'
-			},
+        // 文档加载的根路径，可以是二级路径或者是其他域名的路径。
+        // basePath: '/docs/',
 
-			formatUpdated: '{YYYY}-{MM}-{DD} {HH}:{mm}',
+        themeColor: '#ed27c5',
 
-			plugins: [
-				function (hook, vm) {
-					hook.init(function () {
-						// 初始化时调用，只调用一次，没有参数。
-						//console.log("init");
-					})
+        // 定义路由别名，可以更自由的定义路由规则。支持正则。
+        // 含义：遇到 key，则从 value 中查找
+        alias: {
+            '/.*/_sidebar.md': '/_sidebar.md',
+            '/.*/_navbar.md': '/_navbar.md',
+            // '/foo/(+*)': '/bar/$1', // supports regexp
+            // '/zh-cn/changelog': '/changelog'
+        },
 
-					hook.mounted(function () {
-						// 初始化完成后调用，只调用一次，没有参数。
-						//console.log("mounted");
-					})
+        //某文章目录层级，显示在右侧
+        toc: {
+            scope: '.markdown-section',
+            headings: 'h1, h2, h3, h4, h5, h6',
+            title: 'Table of Contents',
+        },
 
-					hook.beforeEach(function (html) {
-						// 每次开始解析 Markdown 内容时调用
-						// console.log("Now route is: %o", vm.route.path);
+        // 全文搜索插件根据当前页面上的超链接获取文档内容，在 localStorage 内缓存文档索引，一定时间后会过期。
+        search: {
+            maxAge: 86400000, // 过期时间，单位毫秒，默认一天
+            paths: 'auto', // or 'auto'
+            // placeholder: 'Type to search',
 
-						var url = 'https://github.com/wdpm/docsify-zh-cn-simple-guide/blob/master/' + vm.route.file
-						var editHtml = '[📝 EDIT DOCUMENT](' + url + ')\n'
+            // 支持本地化
+            placeholder: {
+                '/': '搜索'
+            },
 
-						return 'Last modified {docsify-updated} '
-							+ editHtml
-							+ html
-					})
+            // 支持本地化
+            noData: {
+                '/': '找不到结果'
+            },
 
-					hook.afterEach(function (html, next) {
-						// 解析成 html 后调用。beforeEach 和 afterEach 支持处理异步逻辑
-						// 异步处理完成后调用 next(html) 返回结果
-						//console.log("afterEach");
-						next(html)
-					})
+            // 搜索标题的最大程级, 1 - 6
+            depth: 2
+        },
 
-					hook.doneEach(function () {
-						// 每次路由切换时数据全部加载完成后调用，没有参数。
-						//console.log("doneEach");
-					})
+        // 本地化404页面.
+        // !>  注意: 配置过`fallbackLanguages`选项的页面与选项`notFoundPage`冲突。
+        notFoundPage: {
+            '/': '_404.md',
+            // '/de': 'de/_404.md'
+        },
 
-					hook.ready(function () {
-						// 初始化并第一次加载完成数据后调用，没有参数。
-						//console.log("ready");
-					})
-				}
-			]
-		}
+        // docsify-copy-code (custom)
+        copyCode: {
+            buttonText: '复制',
+            errorText: '错误',
+            successText: '复制成功'
+        },
 
-		if (typeof navigator.serviceWorker !== 'undefined') {
-			navigator.serviceWorker.register('sw.js')
-		}
+        // 通过 formatUpdated 配置文档更新的日期格式。参考 https://github.com/lukeed/tinydate#patterns
+        formatUpdated: '{YYYY}-{MM}-{DD} {HH}:{mm}',
+        // formatUpdated: function(time) {
+        //     // ...
+        //     return time;
+        // },
 
-	</script>
-	<script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
-	<script src="//unpkg.com/docsify/lib/plugins/search.js"></script>
-	<script src="//unpkg.com/docsify/lib/plugins/emoji.js"></script>
-	<script src="//unpkg.com/docsify/lib/plugins/external-script.js"></script>
-	<script src="//unpkg.com/docsify/lib/plugins/zoom-image.js"></script>
-	<script src="//unpkg.com/docsify-copy-code"></script>
-	<script src="//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js"></script>
+        plugins: [
+            // docsify 提供的钩子（hook）支持处理异步逻辑，可以扩展功能。
+            // 如果需要用 docsify 的内部方法，可以通过 window.Docsify 获取。
+            // 初始化后，切换不同页面，只会循环触发 beforeEach-->afterEach-->doneEach
+            function (hook, vm) {
+                hook.init(function () {
+                    // 初始化时调用，只调用一次，没有参数。
+                    //console.log("init");
+                })
+
+                hook.mounted(function () {
+                    // 初始化挂载完成后调用，只调用一次，没有参数。
+                    //console.log("mounted");
+                })
+
+                hook.beforeEach(function (html) {
+                    // 每次开始解析 Markdown 内容时调用
+                    // console.log("Now route is: %o", vm.route.path);
+
+                    // 显示加载动画
+                    document.getElementById('loading').classList.remove('loading-hide');
+
+                    // add EDIT button
+                    const url = 'https://github.com/wdpm/docsify-zh-cn-simple-guide/blob/master/' + vm.route.file;
+                    const editHtml = '[📝 EDIT DOCUMENT](' + url + ')\n';
+
+                    const finalHtml = 'Last modified {docsify-updated} ' + editHtml + html
+                    sleepMilliseconds(1000);
+                    return finalHtml; // 必须返回字符串
+                })
+
+                hook.afterEach(function (html, next) {
+                    // 解析成 html 后调用。beforeEach 和 afterEach 支持处理异步逻辑
+                    // 异步处理完成后调用 next(html) 返回结果
+
+                    // 这里可以自定义页面尾部区域
+                    let myFooter = '\r\n This is a footer line.\r\n &copy;' + new Date().getFullYear() + ' by Love.';
+                    next(html + myFooter)
+                })
+
+                hook.doneEach(function () {
+                    // 每次路由切换时数据全部加载完成后调用，没有参数。
+                    //console.log("doneEach");
+
+                    // 隐藏加载动画（延迟一点，让内容完全渲染）
+                    setTimeout(() => {
+                        const loading = document.getElementById('loading');
+                        // 此时loading视觉消失
+                        loading.classList.add('loading-hide');
+                        // 此时loading DOM结构消失
+                        setTimeout(() => {
+                            loading.style.display = 'none';
+                        }, 300);
+                    }, 200);
+                })
+
+                hook.ready(function () {
+                    // 初始化并第一次加载完成数据后调用，没有参数。
+                    //console.log("ready");
+                })
+            }
+        ]
+    }
+
+    if (typeof navigator.serviceWorker !== 'undefined') {
+        navigator.serviceWorker.register('sw.js')
+    }
+
+</script>
+<script src="//unpkg.com/docsify@4.13.1/lib/docsify.js"></script>
+<script src="//unpkg.com/docsify/lib/plugins/search.js"></script>
+<script src="//unpkg.com/docsify/lib/plugins/emoji.js"></script>
+<!--如果文档里的 script 是内联脚本，可以直接执行；如果是外链脚本，则需要使用此插件。 -->
+<script src="//unpkg.com/docsify/lib/plugins/external-script.js"></script>
+<script src="//unpkg.com/docsify/lib/plugins/zoom-image.js"></script>
+<script src="//unpkg.com/docsify-copy-code"></script>
+<script src="//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js"></script>
+<!--内置的代码高亮工具是 Prism，默认支持 CSS、JavaScript 和 HTML。如果需要高亮其他语言，需手动引入代码高亮插件。-->
+<!--示例 <script src="//unpkg.com/prismjs/components/prism-bash.js"></script>-->
+
+<!--这个toc的实现有个缺点：滚动页面时，toc对应高亮项不会自动跟随-->
+<script src="https://unpkg.com/docsify-toc@1.0.0/dist/toc.js"></script>
 </body>
 
 </html>

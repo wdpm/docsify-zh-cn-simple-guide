@@ -26,11 +26,11 @@ docsify 扩展了一些 Markdown 语法 。
 ![logo](https://docsify.js.org/_media/icon.svg ':size=50x100')
 ```
 
-![logo](assets/reimu.jpg ':size=191x108')
+![logo](../assets/reimu.jpg ':size=191x108')
 
 
 
-## 设置标题的 id 属性
+## 设置标题的 id 属性 :id=set-id-demo
 
 ```markdown
 ### 你好，世界！ :id=hello-world
